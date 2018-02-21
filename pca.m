@@ -1,0 +1,20 @@
+clc;
+close all;
+clear all;
+X=load('iris.csv');
+n_component=2;
+batch_size=10;
+for i=1:batch_size:size(X, 1)
+[X_mean X_singular X_component] = ipca(X(i:i+batch_size-1, :), batch_size, n_component);
+end;
+X=X.-mean(X);
+X=X*X_component';
+figure;
+hold on;
+plot(X(1:50, 1), X(1:50, 2), 'o', 'MarkerFaceColor','blue','MarkerSize',15);
+hold on;
+plot(X(51:100, 1), X(51:100, 2), '*', 'MarkerFaceColor','black','MarkerSize',15);
+hold on;
+plot(X(101:150, 1), X(101:150, 2), '^', 'MarkerFaceColor','red','MarkerSize',15);
+grid on;
+legend('Setosa', 'Versicolor', 'Virginica');
